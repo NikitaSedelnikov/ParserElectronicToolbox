@@ -97,7 +97,16 @@ class Parcer extends Controller
                             foreach ($result['items'] as $key => $item) {
                                 if (array_key_exists('url', $item))
                                 {
-                                    if (!in_array($item['url'], $products) && !in_array($item['name'], $products)) {
+                                    $dublicate = 0;
+                                    foreach ($products as $key => $product)
+                                    {
+                                        if (in_array($item['url'], $product) && in_array($item['name'], $product)) {
+                                            $dublicate = 1;
+                                            echo 'Обнаружен повторяющийся товар: ' . $item['name'] . PHP_EOL;
+                                            break;
+                                        }
+                                    }
+                                    if ($dublicate != 1) {
                                         $products[] = [
                                             'name' => $item['name'],
                                             'id' => $item['productid'],
